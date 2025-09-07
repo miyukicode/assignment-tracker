@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:title="Save Vacation"
+    <item android:title="Save Class"
         android:id="@+id/vacationsave"/>
     <item android:title="Alert Me"
         android:id="@+id/vacationalert"/>
-    <item android:title="Delete Vacation"
+    <item android:title="Delete Class"
         android:id="@+id/vacationdelete"
         android:icon="@drawable/delete"
         app:showAsAction="ifRoom"/>
-    <item android:title="Share Vacation"
+    <item android:title="Share Class"
         android:id="@+id/vacationshare"
         android:icon="@drawable/share"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/vacationreport"
+        android:title="Generate CSV Report" />
+
 </menu>

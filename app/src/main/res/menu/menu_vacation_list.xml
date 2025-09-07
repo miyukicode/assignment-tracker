@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Add sample data (debug)"
-        android:id="@+id/mysample"/>
     <item android:title="Clear database"
         android:id="@+id/cleardb"/>
-    <item android:title="Return to hompage"
+    <item android:title="Return to homepage"
         android:id="@+id/returnhome"/>
 </menu>

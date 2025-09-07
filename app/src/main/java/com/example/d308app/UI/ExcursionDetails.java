@@ -58,6 +58,7 @@ public class ExcursionDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_excursion_details);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Assignment Details");
         repository = new Repository(getApplication());
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -133,13 +134,13 @@ public class ExcursionDetails extends AppCompatActivity {
 
     @NonNull
     private Intent getShareIntent() {
-        String shareText = "I'm going on an excursion";
+        String shareText = "I have an assignment to do";
 
         if (editName != null) {
             shareText = shareText + ": " + Objects.requireNonNull(editName.getText());
         }
         if (editDate != null) {
-            shareText = shareText + " on " + Objects.requireNonNull(editDate.getText());
+            shareText = shareText + " due on " + Objects.requireNonNull(editDate.getText());
         }
 
         Intent shareIntent = new Intent();

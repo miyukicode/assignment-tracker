@@ -26,7 +26,7 @@
                 android:id="@+id/vacationname_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Vacation Name">
+                android:hint="Class Name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/vacationname"
@@ -40,7 +40,7 @@
                 android:id="@+id/vacationhotel_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Hotel Name">
+                android:hint="Subject">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/vacationhotel"
@@ -104,7 +104,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Excursions on this Vacation"
+            android:text="Assignments for this Class"
             android:textSize="20sp"
             android:paddingBottom="2dp" />
     </LinearLayout>
@@ -120,7 +120,7 @@
         android:id="@+id/noExcursionsTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="There are no excursions associated with this vacation. Click the '+ Add Excursions' button in the bottom right corner to add one!"
+        android:text="There are no assignments associated with this class. Click the '+ Add Assingment' button in the bottom right corner to add one!"
         android:gravity="center"
         android:textColor="@android:color/darker_gray"
         android:padding="15dp"
@@ -146,7 +146,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="24dp"
         android:clickable="true"
-        android:text="Add Excursion"
+        android:text="Add Assignment"
         android:textSize="16sp"
         app:icon="@drawable/add"
         app:iconTint="@color/amber_dark"

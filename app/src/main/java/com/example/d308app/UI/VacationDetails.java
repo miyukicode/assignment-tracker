@@ -67,6 +67,7 @@ public class VacationDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vacation_details);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Class Details");
         name = getIntent().getStringExtra("name");
         startdate = getIntent().getStringExtra("startdate");
         enddate = getIntent().getStringExtra("enddate");
@@ -162,13 +163,13 @@ public class VacationDetails extends AppCompatActivity {
                 repository.delete(currentVacation);
                 finish();
             } else {
-                Toast.makeText(VacationDetails.this, "Please delete the existing excursions associated with this vacation first.", Toast.LENGTH_LONG).show();
+                Toast.makeText(VacationDetails.this, "Please delete the existing assignments associated with this class first.", Toast.LENGTH_LONG).show();
             }
             return true;
         }
         if(item.getItemId()== R.id.vacationshare){
             Intent shareIntent = getShareIntent();
-            Intent chooserIntent = Intent.createChooser(shareIntent, "Share your vacation details");
+            Intent chooserIntent = Intent.createChooser(shareIntent, "Share your class details");
             startActivity(chooserIntent);
             return true;
         }
@@ -176,24 +177,52 @@ public class VacationDetails extends AppCompatActivity {
             checkVacationAlerts();
             return true;
         }
+        if(item.getItemId() == R.id.vacationreport){
+            try {
+                Vacation vacationToReport = null;
+                for (Vacation vacay : repository.getAllVacations()) {
+                    if (vacay.getVacationID() == vacationID) {
+                        vacationToReport = vacay;
+                        break;
+                    }
+                }
+
+                if (vacationToReport != null) {
+                    String csvReport = generateVacationReport(vacationToReport);
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, csvReport);
+                    shareIntent.setType("text/plain");
+                    startActivity(Intent.createChooser(shareIntent, "Share class report"));
+                    Toast.makeText(this, "Class report generated successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Class not found", Toast.LENGTH_SHORT).show();
+                }
+
+            } catch (Exception e) {
+                Toast.makeText(this, "Failed to generate class report", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
     @NonNull
     private Intent getShareIntent() {
-        String shareText = "I'm going on vacation";
+        String shareText = "I'm taking a class";
 
         if (editName != null) {
-            shareText = shareText + " to " + Objects.requireNonNull(editName.getText());
+            shareText = shareText + " called " + Objects.requireNonNull(editName.getText());
         }
         if (editStartDate != null) {
             shareText = shareText + ", starting on " + Objects.requireNonNull(editStartDate.getText()) + ".";
         }
         if (editEndDate != null) {
-            shareText = shareText + " I will be staying at " + Objects.requireNonNull(editHotel.getText());
+            shareText = shareText + " The subject is " + Objects.requireNonNull(editHotel.getText());
         }
         if (editEndDate != null) {
-            shareText = shareText + " and returning on " + Objects.requireNonNull(editEndDate.getText()) + ".";
+            shareText = shareText + " and it's ending on " + Objects.requireNonNull(editEndDate.getText()) + ".";
         }
 
         Intent shareIntent = new Intent();
@@ -285,8 +314,8 @@ public class VacationDetails extends AppCompatActivity {
         }
         String todayStr = sdf.format(Calendar.getInstance().getTime());
 
-        String msgStart = "Your vacation to " + editName.getText().toString() + " is starting today!";
-        String msgEnd = "Your vacation to " + editName.getText().toString() + " is ending today!";
+        String msgStart = "Your class called " + editName.getText().toString() + " is starting today!";
+        String msgEnd = "Your class called " + editName.getText().toString() + " is ending today!";
 
         try {
             Date today = sdf.parse(todayStr);
@@ -304,6 +333,52 @@ public class VacationDetails extends AppCompatActivity {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String generateVacationReport(Vacation vacation) {
+        StringBuilder csv = new StringBuilder();
+        SimpleDateFormat inputFormat = new SimpleDateFormat("MM/dd/yy", Locale.US);
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+        String startDateFormatted = "";
+        String endDateFormatted = "";
+        try {
+            Date start = inputFormat.parse(vacation.getStartDate());
+            Date end = inputFormat.parse(vacation.getEndDate());
+            startDateFormatted = outputFormat.format(start) + " 00:00:00";
+            endDateFormatted = outputFormat.format(end) + " 00:00:00";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        csv.append("Class Name, Subject, Start Datetime, End Datetime\n");
+        csv.append(vacation.getVacationName()).append(", ");
+        csv.append(vacation.getHotel()).append(", ");
+        csv.append(startDateFormatted).append(", ").append(endDateFormatted).append("\n\n");
+
+        List<Excursion> excursionsForVacation = new ArrayList<>();
+        for (Excursion e : repository.getAllExcursions()) {
+            if (e.getVacationID() == vacation.getVacationID()) excursionsForVacation.add(e);
+        }
+
+        csv.append("Number, Assignment Title, Datetime\n");
+        int counter = 1;
+        for (Excursion e : excursionsForVacation) {
+            String excursionDatetime = "";
+            try {
+                Date excDate = inputFormat.parse(e.getExcursionDate());
+                excursionDatetime = outputFormat.format(excDate) + " 00:00:00";
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            csv.append(counter).append(", ");
+            csv.append(e.getExcursionName()).append(", ");
+            csv.append(excursionDatetime).append("\n");
+            counter++;
+        }
+
+        return csv.toString();
     }
 
 

@@ -26,7 +26,7 @@
                 android:id="@+id/excursionname_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Excursion Name">
+                android:hint="Assignment Title">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/excursionname"
@@ -40,7 +40,7 @@
                 android:id="@+id/excursiondate_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Date">
+                android:hint="Due Date">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/excursiondate"

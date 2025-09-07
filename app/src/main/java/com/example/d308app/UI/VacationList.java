@@ -24,6 +24,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.Objects;
 
 public class VacationList extends AppCompatActivity {
     private Repository repository;
@@ -34,6 +35,7 @@ public class VacationList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_vacation_list);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Class List");
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -57,6 +59,23 @@ public class VacationList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         vacationAdapter.setVacations(allVacations);
 
+        androidx.appcompat.widget.SearchView searchView = findViewById(R.id.searchView);
+        searchView.setIconifiedByDefault(false);
+        searchView.setQueryHint("Search classes...");
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                vacationAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                vacationAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
         TextView noVacationsTxt = findViewById(R.id.noVacationsTxt);
         if (allVacations == null || allVacations.isEmpty()) {
             noVacationsTxt.setVisibility(View.VISIBLE);
@@ -75,25 +94,6 @@ public class VacationList extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId()==R.id.mysample){
-            repository=new Repository(getApplication());
-            Vacation france=new Vacation(1, "France", "3/1/26","3/20/26", "Hilton");
-            repository.insert(france);
-
-            Excursion tour=new Excursion(1, "tour", "3/2/26",1);
-            repository.insert(tour);
-
-            Vacation japan=new Vacation(2, "Japan", "11/20/25","11/27/25", "Hyatt");
-            repository.insert(japan);
-
-            Excursion hiking=new Excursion(2, "hiking","11/24/25",2);
-            repository.insert(hiking);
-
-            Toast.makeText(this, "Sample data added", Toast.LENGTH_SHORT).show();
-            vacationAdapter.setVacations(repository.getAllVacations());
-            finish();
-            return true;
-        }
         if(item.getItemId() == R.id.cleardb) {
             repository.deleteAllExcursions();
             repository.deleteAllVacations();
@@ -113,10 +113,6 @@ public class VacationList extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         List<Vacation> allVacations = repository.getAllVacations();
-        RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        final VacationAdapter vacationAdapter = new VacationAdapter(this);
-        recyclerView.setAdapter(vacationAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         vacationAdapter.setVacations(allVacations);
 
         TextView noVacationsTxt = findViewById(R.id.noVacationsTxt);
