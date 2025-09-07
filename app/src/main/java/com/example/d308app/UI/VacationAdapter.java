@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d308app.R;
-import com.example.d308app.entities.Vacation;
+import com.example.d308app.entities.Course;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.Vacati
                 @Override
                 public void onClick(View v) {
                     int position=getAdapterPosition();
-                    final Vacation current=mVacations.get(position);
+                    final Course current= mCourses.get(position);
                     Intent intent=new Intent(context,VacationDetails.class);
                     intent.putExtra("id", current.getVacationID());
                     intent.putExtra("name", current.getVacationName());
@@ -43,8 +43,8 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.Vacati
         }
     }
 
-    private List<Vacation> mVacations;
-    private List<Vacation> mVacationsFull;
+    private List<Course> mCourses;
+    private List<Course> mVacationsFull;
     private final Context context;
     private final LayoutInflater mInflater;
 
@@ -65,8 +65,8 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.Vacati
 
     @Override
     public void onBindViewHolder(@NonNull VacationAdapter.VacationViewHolder holder, int position) {
-        if(mVacations!=null){
-            Vacation current=mVacations.get(position);
+        if(mCourses !=null){
+            Course current= mCourses.get(position);
             String name=current.getVacationName();
             holder.vacationItemView.setText(name);
             holder.datesText.setText(current.getStartDate() + " - " + current.getEndDate());
@@ -81,17 +81,17 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.Vacati
 
     @Override
     public int getItemCount() {
-        if(mVacations != null) {
-            return mVacations.size();
+        if(mCourses != null) {
+            return mCourses.size();
         }
         else {
             return 0;
         }
     }
 
-    public void setVacations(List<Vacation> vacations){
-        mVacations=vacations;
-        mVacationsFull = new ArrayList<>(vacations);
+    public void setVacations(List<Course> courses){
+        mCourses = courses;
+        mVacationsFull = new ArrayList<>(courses);
         notifyDataSetChanged();
     }
 
@@ -103,12 +103,12 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.Vacati
     private Filter vacationFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<Vacation> filteredList = new ArrayList<>();
+            List<Course> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(mVacationsFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                for (Vacation v : mVacationsFull) {
+                for (Course v : mVacationsFull) {
                     if (v.getVacationName().toLowerCase().contains(filterPattern) ||
                             v.getHotel().toLowerCase().contains(filterPattern)) {
                         filteredList.add(v);
@@ -122,8 +122,8 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.Vacati
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            mVacations.clear();
-            mVacations.addAll((List) results.values);
+            mCourses.clear();
+            mCourses.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };

@@ -4,14 +4,14 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "excursions")
-public class Excursion {
+public class Assignment {
     @PrimaryKey(autoGenerate = true)
     private int excursionID;
     private String excursionName;
     private String excursionDate;
     private int vacationID;
 
-    public Excursion(int excursionID, String excursionName, String excursionDate, int vacationID) {
+    public Assignment(int excursionID, String excursionName, String excursionDate, int vacationID) {
         this.excursionID = excursionID;
         this.excursionName = excursionName;
         this.excursionDate = excursionDate;

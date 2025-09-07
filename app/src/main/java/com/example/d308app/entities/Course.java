@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "vacations")
-public class Vacation {
+public class Course {
     @PrimaryKey(autoGenerate = true)
     private int vacationID;
     private String vacationName;
@@ -12,7 +12,7 @@ public class Vacation {
     private String startDate;
     private String endDate;
 
-    public Vacation(int vacationID, String vacationName, String startDate, String endDate, String hotel) {
+    public Course(int vacationID, String vacationName, String startDate, String endDate, String hotel) {
         this.vacationID = vacationID;
         this.vacationName = vacationName;
         this.hotel = hotel;

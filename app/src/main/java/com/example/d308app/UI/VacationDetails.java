@@ -1,37 +1,25 @@
 package com.example.d308app.UI;
 
-import android.Manifest;
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d308app.R;
 import com.example.d308app.database.Repository;
-import com.example.d308app.entities.Excursion;
-import com.example.d308app.entities.Vacation;
+import com.example.d308app.entities.Assignment;
+import com.example.d308app.entities.Course;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -59,7 +47,7 @@ public class VacationDetails extends AppCompatActivity {
     TextInputEditText editStartDate;
     TextInputEditText editEndDate;
     Repository repository;
-    Vacation currentVacation;
+    Course currentCourse;
     int numExcursions;
 
 
@@ -93,15 +81,15 @@ public class VacationDetails extends AppCompatActivity {
         final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
         recyclerView.setAdapter(excursionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<Excursion> filteredExcursions = new ArrayList<>();
-        for (Excursion e : repository.getAllExcursions()) {
-            if (e.getVacationID() == vacationID) filteredExcursions.add(e);
+        List<Assignment> filteredAssignments = new ArrayList<>();
+        for (Assignment e : repository.getAllExcursions()) {
+            if (e.getVacationID() == vacationID) filteredAssignments.add(e);
         }
-        excursionAdapter.setExcursions(filteredExcursions);
+        excursionAdapter.setExcursions(filteredAssignments);
 
         TextView noExcursionsTxt = findViewById(R.id.noExcursionsTxt);
 
-        if (filteredExcursions.isEmpty()) {
+        if (filteredAssignments.isEmpty()) {
             noExcursionsTxt.setVisibility(View.VISIBLE);
         } else {
             noExcursionsTxt.setVisibility(View.INVISIBLE);
@@ -150,17 +138,17 @@ public class VacationDetails extends AppCompatActivity {
             return true;
         }
         if(item.getItemId()== R.id.vacationdelete) {
-            for (Vacation vacay : repository.getAllVacations()) {
-                if (vacay.getVacationID() == vacationID) currentVacation = vacay;
+            for (Course vacay : repository.getAllVacations()) {
+                if (vacay.getVacationID() == vacationID) currentCourse = vacay;
             }
 
             numExcursions = 0;
-            for (Excursion excursion : repository.getAllExcursions()) {
-                if (excursion.getVacationID() == vacationID) ++numExcursions;
+            for (Assignment assignment : repository.getAllExcursions()) {
+                if (assignment.getVacationID() == vacationID) ++numExcursions;
             }
 
             if (numExcursions == 0) {
-                repository.delete(currentVacation);
+                repository.delete(currentCourse);
                 finish();
             } else {
                 Toast.makeText(VacationDetails.this, "Please delete the existing assignments associated with this class first.", Toast.LENGTH_LONG).show();
@@ -179,16 +167,16 @@ public class VacationDetails extends AppCompatActivity {
         }
         if(item.getItemId() == R.id.vacationreport){
             try {
-                Vacation vacationToReport = null;
-                for (Vacation vacay : repository.getAllVacations()) {
+                Course courseToReport = null;
+                for (Course vacay : repository.getAllVacations()) {
                     if (vacay.getVacationID() == vacationID) {
-                        vacationToReport = vacay;
+                        courseToReport = vacay;
                         break;
                     }
                 }
 
-                if (vacationToReport != null) {
-                    String csvReport = generateVacationReport(vacationToReport);
+                if (courseToReport != null) {
+                    String csvReport = generateVacationReport(courseToReport);
                     Intent shareIntent = new Intent();
                     shareIntent.setAction(Intent.ACTION_SEND);
                     shareIntent.putExtra(Intent.EXTRA_TEXT, csvReport);
@@ -335,7 +323,7 @@ public class VacationDetails extends AppCompatActivity {
         }
     }
 
-    private String generateVacationReport(Vacation vacation) {
+    private String generateVacationReport(Course course) {
         StringBuilder csv = new StringBuilder();
         SimpleDateFormat inputFormat = new SimpleDateFormat("MM/dd/yy", Locale.US);
         SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -343,8 +331,8 @@ public class VacationDetails extends AppCompatActivity {
         String startDateFormatted = "";
         String endDateFormatted = "";
         try {
-            Date start = inputFormat.parse(vacation.getStartDate());
-            Date end = inputFormat.parse(vacation.getEndDate());
+            Date start = inputFormat.parse(course.getStartDate());
+            Date end = inputFormat.parse(course.getEndDate());
             startDateFormatted = outputFormat.format(start) + " 00:00:00";
             endDateFormatted = outputFormat.format(end) + " 00:00:00";
         } catch (Exception e) {
@@ -352,18 +340,18 @@ public class VacationDetails extends AppCompatActivity {
         }
 
         csv.append("Class Name, Subject, Start Datetime, End Datetime\n");
-        csv.append(vacation.getVacationName()).append(", ");
-        csv.append(vacation.getHotel()).append(", ");
+        csv.append(course.getVacationName()).append(", ");
+        csv.append(course.getHotel()).append(", ");
         csv.append(startDateFormatted).append(", ").append(endDateFormatted).append("\n\n");
 
-        List<Excursion> excursionsForVacation = new ArrayList<>();
-        for (Excursion e : repository.getAllExcursions()) {
-            if (e.getVacationID() == vacation.getVacationID()) excursionsForVacation.add(e);
+        List<Assignment> excursionsForVacation = new ArrayList<>();
+        for (Assignment e : repository.getAllExcursions()) {
+            if (e.getVacationID() == course.getVacationID()) excursionsForVacation.add(e);
         }
 
         csv.append("Number, Assignment Title, Datetime\n");
         int counter = 1;
-        for (Excursion e : excursionsForVacation) {
+        for (Assignment e : excursionsForVacation) {
             String excursionDatetime = "";
             try {
                 Date excDate = inputFormat.parse(e.getExcursionDate());
@@ -389,13 +377,13 @@ public class VacationDetails extends AppCompatActivity {
         final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
         recyclerView.setAdapter(excursionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<Excursion> filteredExcursions = new ArrayList<>();
-        for (Excursion e : repository.getAllExcursions()) {
-            if (e.getVacationID() == vacationID) filteredExcursions.add(e);
+        List<Assignment> filteredAssignments = new ArrayList<>();
+        for (Assignment e : repository.getAllExcursions()) {
+            if (e.getVacationID() == vacationID) filteredAssignments.add(e);
         }
-        excursionAdapter.setExcursions(filteredExcursions);
+        excursionAdapter.setExcursions(filteredAssignments);
         TextView noExcursionsTxt = findViewById(R.id.noExcursionsTxt);
-        if (filteredExcursions.isEmpty()) {
+        if (filteredAssignments.isEmpty()) {
             noExcursionsTxt.setVisibility(View.VISIBLE);
         } else {
             noExcursionsTxt.setVisibility(View.INVISIBLE);
@@ -403,18 +391,18 @@ public class VacationDetails extends AppCompatActivity {
     }
 
     private void saveVacation() {
-        Vacation vacation;
+        Course course;
         if (vacationID == -1) {
             if (repository.getAllVacations().size() == 0) vacationID = 1;
             else
                 vacationID = repository.getAllVacations().get(repository.getAllVacations().size() - 1).getVacationID() + 1;
-            vacation = new Vacation(vacationID, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(), editHotel.getText().toString());
-            repository.insert(vacation);
+            course = new Course(vacationID, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(), editHotel.getText().toString());
+            repository.insert(course);
             this.finish();
         } else {
             try{
-                vacation = new Vacation(vacationID, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(), editHotel.getText().toString());
-                repository.update(vacation);
+                course = new Course(vacationID, editName.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString(), editHotel.getText().toString());
+                repository.update(course);
                 this.finish();
             }
             catch (Exception e){

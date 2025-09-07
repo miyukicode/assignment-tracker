@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -16,25 +14,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d308app.R;
 import com.example.d308app.database.Repository;
-import com.example.d308app.entities.Excursion;
-import com.example.d308app.entities.Vacation;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.materialswitch.MaterialSwitch;
+import com.example.d308app.entities.Assignment;
+import com.example.d308app.entities.Course;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -48,8 +39,8 @@ public class ExcursionDetails extends AppCompatActivity {
     TextInputEditText editName;
     TextInputEditText editDate;
     Repository repository;
-    Excursion currentExcursion;
-    Vacation associatedVacation;
+    Assignment currentAssignment;
+    Course associatedCourse;
     String vacationStart;
     String vacationEnd;
 
@@ -75,10 +66,10 @@ public class ExcursionDetails extends AppCompatActivity {
         editName = (TextInputEditText) editNameLayout.getEditText();
         editDate = (TextInputEditText) editDateLayout.getEditText();
 
-        associatedVacation = repository.getVacationByID(vacationID);
-        if (associatedVacation != null) {
-            vacationStart = associatedVacation.getStartDate();
-            vacationEnd = associatedVacation.getEndDate();
+        associatedCourse = repository.getVacationByID(vacationID);
+        if (associatedCourse != null) {
+            vacationStart = associatedCourse.getStartDate();
+            vacationEnd = associatedCourse.getEndDate();
         }
 
         if (editName != null) editName.setText(name);
@@ -110,8 +101,8 @@ public class ExcursionDetails extends AppCompatActivity {
             return true;
         }
         if(item.getItemId()== R.id.excursiondelete) {
-            Excursion excursionToDelete = new Excursion(excursionID, name, date, vacationID);
-            repository.delete(excursionToDelete);
+            Assignment assignmentToDelete = new Assignment(excursionID, name, date, vacationID);
+            repository.delete(assignmentToDelete);
             finish();
             return true;
         }
@@ -223,18 +214,18 @@ public class ExcursionDetails extends AppCompatActivity {
     }
 
     private void saveExcursion() {
-        Excursion excursion;
+        Assignment assignment;
         if (excursionID == -1) {
             if (repository.getAllExcursions().size() == 0) excursionID = 1;
             else
                 excursionID = repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
-            excursion = new Excursion(excursionID, editName.getText().toString(), editDate.getText().toString(), vacationID);
-            repository.insert(excursion);
+            assignment = new Assignment(excursionID, editName.getText().toString(), editDate.getText().toString(), vacationID);
+            repository.insert(assignment);
             this.finish();
         } else {
             try{
-                excursion = new Excursion(excursionID, editName.getText().toString(), editDate.getText().toString(), vacationID);
-                repository.update(excursion);
+                assignment = new Assignment(excursionID, editName.getText().toString(), editDate.getText().toString(), vacationID);
+                repository.update(assignment);
                 this.finish();
             }
             catch (Exception e){

@@ -18,10 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d308app.R;
 import com.example.d308app.database.Repository;
-import com.example.d308app.entities.Excursion;
-import com.example.d308app.entities.Vacation;
+import com.example.d308app.entities.Course;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 import java.util.Objects;
@@ -52,12 +50,12 @@ public class VacationList extends AppCompatActivity {
         });
 
         repository = new Repository(getApplication());
-        List<Vacation> allVacations = repository.getAllVacations();
+        List<Course> allCourses = repository.getAllVacations();
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         vacationAdapter = new VacationAdapter(this);
         recyclerView.setAdapter(vacationAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        vacationAdapter.setVacations(allVacations);
+        vacationAdapter.setVacations(allCourses);
 
         androidx.appcompat.widget.SearchView searchView = findViewById(R.id.searchView);
         searchView.setIconifiedByDefault(false);
@@ -77,7 +75,7 @@ public class VacationList extends AppCompatActivity {
         });
 
         TextView noVacationsTxt = findViewById(R.id.noVacationsTxt);
-        if (allVacations == null || allVacations.isEmpty()) {
+        if (allCourses == null || allCourses.isEmpty()) {
             noVacationsTxt.setVisibility(View.VISIBLE);
         } else {
             noVacationsTxt.setVisibility(View.INVISIBLE);
@@ -112,11 +110,11 @@ public class VacationList extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        List<Vacation> allVacations = repository.getAllVacations();
-        vacationAdapter.setVacations(allVacations);
+        List<Course> allCourses = repository.getAllVacations();
+        vacationAdapter.setVacations(allCourses);
 
         TextView noVacationsTxt = findViewById(R.id.noVacationsTxt);
-        if (allVacations == null || allVacations.isEmpty()) {
+        if (allCourses == null || allCourses.isEmpty()) {
             noVacationsTxt.setVisibility(View.VISIBLE);
         } else {
             noVacationsTxt.setVisibility(View.INVISIBLE);
