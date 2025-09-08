@@ -22,15 +22,15 @@ public interface CourseDAO {
     @Delete
     void delete(Course course);
 
-    @Query("SELECT * FROM Course ORDER BY vacationID ASC")
+    @Query("SELECT * FROM vacations ORDER BY vacationID ASC")
     List<Course> getAllVacations();
 
-    @Query("SELECT * FROM Course WHERE vacationID=:prod ORDER BY vacationID ASC")
+    @Query("SELECT * FROM vacations WHERE vacationID=:prod ORDER BY vacationID ASC")
     List<Course> getAssociatedVacations(int prod);
 
-    @Query("DELETE FROM Course")
+    @Query("DELETE FROM vacations")
     void deleteAllVacations();
 
-    @Query("SELECT * FROM Course WHERE vacationID = :vacationID LIMIT 1")
+    @Query("SELECT * FROM vacations WHERE vacationID = :vacationID LIMIT 1")
     Course getVacationById(int vacationID);
 }

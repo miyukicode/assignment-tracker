@@ -121,7 +121,7 @@ public class VacationDetails extends AppCompatActivity {
                 Toast.makeText(this, "Please fix the date errors first", Toast.LENGTH_LONG).show();
                 return;
             }
-            Intent intent=new Intent(VacationDetails.this, ExcursionDetails.class);
+            Intent intent=new Intent(VacationDetails.this, AssignmentDetails.class);
             intent.putExtra("vacationID", vacationID);
             startActivity(intent);
         });
@@ -159,10 +159,6 @@ public class VacationDetails extends AppCompatActivity {
             Intent shareIntent = getShareIntent();
             Intent chooserIntent = Intent.createChooser(shareIntent, "Share your class details");
             startActivity(chooserIntent);
-            return true;
-        }
-        if(item.getItemId()== R.id.vacationalert){
-            checkVacationAlerts();
             return true;
         }
         if(item.getItemId() == R.id.vacationreport){
@@ -339,6 +335,8 @@ public class VacationDetails extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        csv.append("Class Report\n\n");
+
         csv.append("Class Name, Subject, Start Datetime, End Datetime\n");
         csv.append(course.getVacationName()).append(", ");
         csv.append(course.getHotel()).append(", ");
@@ -368,6 +366,7 @@ public class VacationDetails extends AppCompatActivity {
 
         return csv.toString();
     }
+
 
 
     @Override

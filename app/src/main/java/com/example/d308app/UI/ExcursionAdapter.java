@@ -28,7 +28,7 @@ public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.Excu
                 public void onClick(View view) {
                     int position=getAdapterPosition();
                     final Assignment current= mAssignments.get(position);
-                    Intent intent=new Intent(context,ExcursionDetails.class);
+                    Intent intent=new Intent(context, AssignmentDetails.class);
                     intent.putExtra("id", current.getExcursionID());
                     intent.putExtra("name", current.getExcursionName());
                     intent.putExtra("date", current.getExcursionDate());

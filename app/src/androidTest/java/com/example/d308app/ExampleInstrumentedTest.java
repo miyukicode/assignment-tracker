@@ -1,14 +1,20 @@
 package com.example.d308app;
 
 import android.content.Context;
+import android.widget.EditText;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
+
+import com.example.d308app.UI.AssignmentDetails;
+import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -24,3 +30,4 @@ public class ExampleInstrumentedTest {
         assertEquals("com.example.d308app", appContext.getPackageName());
     }
 }
+

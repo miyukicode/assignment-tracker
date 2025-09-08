@@ -21,12 +21,12 @@ public interface AssignmentDAO {
     @Delete
     void delete(Assignment assignment);
 
-    @Query("SELECT * FROM Assignment ORDER BY excursionID ASC")
+    @Query("SELECT * FROM excursions ORDER BY excursionID ASC")
     List<Assignment> getAllExcursions();
 
-    @Query("SELECT * FROM Assignment WHERE excursionID=:prod ORDER BY excursionID ASC")
+    @Query("SELECT * FROM excursions WHERE excursionID=:prod ORDER BY excursionID ASC")
     List<Assignment> getAssociatedExcursions(int prod);
 
-    @Query("DELETE FROM Assignment")
+    @Query("DELETE FROM excursions")
     void deleteAllExcursions();
 }

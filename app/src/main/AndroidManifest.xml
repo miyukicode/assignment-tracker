@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.D308App">
         <activity
-            android:name=".UI.ExcursionDetails"
+            android:name=".UI.AssignmentDetails"
             android:label="Excursion Details"
             android:exported="false" />
         <activity

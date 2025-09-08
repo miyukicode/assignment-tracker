@@ -109,8 +109,7 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.Vacati
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Course v : mVacationsFull) {
-                    if (v.getVacationName().toLowerCase().contains(filterPattern) ||
-                            v.getHotel().toLowerCase().contains(filterPattern)) {
+                    if (v.getVacationName().toLowerCase().contains(filterPattern)) {
                         filteredList.add(v);
                     }
                 }
