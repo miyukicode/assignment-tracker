@@ -137,22 +137,15 @@ public class VacationDetails extends AppCompatActivity {
             saveVacation();
             return true;
         }
-        if(item.getItemId()== R.id.vacationdelete) {
-            for (Course vacay : repository.getAllVacations()) {
-                if (vacay.getVacationID() == vacationID) currentCourse = vacay;
+        if (item.getItemId() == R.id.vacationdelete) {
+            Course currentCourse = repository.getVacationByID(vacationID);
+            List<Assignment> associatedAssignments = repository.getAssociatedExcursions(vacationID);
+            for (Assignment assignment : associatedAssignments) {
+                repository.delete(assignment);
             }
+            repository.delete(currentCourse);
 
-            numExcursions = 0;
-            for (Assignment assignment : repository.getAllExcursions()) {
-                if (assignment.getVacationID() == vacationID) ++numExcursions;
-            }
-
-            if (numExcursions == 0) {
-                repository.delete(currentCourse);
-                finish();
-            } else {
-                Toast.makeText(VacationDetails.this, "Please delete the existing assignments associated with this class first.", Toast.LENGTH_LONG).show();
-            }
+            finish();
             return true;
         }
         if(item.getItemId()== R.id.vacationshare){
@@ -253,10 +246,6 @@ public class VacationDetails extends AppCompatActivity {
             if (!startText.isEmpty()) { startDate = sdf.parse(startText); }
             if (!endText.isEmpty()) { endDate = sdf.parse(endText); }
 
-            if (startDate != null && startDate.before(today)) {
-                editStartDateLayout.setError("Start date should not be in the past.");
-                return false;
-            }
             if (startDate != null && endDate != null && endDate.before(startDate)) {
                 editEndDateLayout.setError("End date should not be before start date.");
                 return false;

@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".UI.VacationList">
 
+    <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
@@ -14,46 +15,68 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="24dp"
         android:clickable="true"
-        android:text="Add Class"
         android:textSize="16sp"
         app:icon="@drawable/add"
         app:iconTint="@color/amber_dark"
         android:textColor="@color/amber_dark"
         style="@style/Widget.Material3.FloatingActionButton.Surface"
-        android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Main vertical container -->
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/parentLayout"
         android:orientation="vertical"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="24dp"
-        android:layout_height="match_parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchView"
+        <!-- Search Bar Container with background + padding -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:queryHint="Search classes..." />
+            android:paddingTop="12dp"
+            android:paddingBottom="0dp"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:queryHint="Search classes..."
+                android:iconifiedByDefault="false"/>
+        </LinearLayout>
+
+        <!-- Divider line full width -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#808080" />
+
+        <!-- RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
     </LinearLayout>
 
+    <!-- Empty state text -->
     <TextView
         android:id="@+id/noVacationsTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="To add a class, click the '+ Add Class' button in the bottom right corner."
+        android:text="To add a class, click the '+' button in the bottom right corner."
         android:gravity="center"
         android:textColor="@android:color/darker_gray"
         android:layout_marginTop="74dp"
         android:textSize="17sp"
         android:padding="14dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

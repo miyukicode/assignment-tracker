@@ -7,18 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".UI.VacationDetails">
 
-    <ScrollView
-        android:id="@+id/scrollview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/parentview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:orientation="vertical"
+            android:layout_marginTop="12dp"
             android:padding="15dp">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -79,7 +76,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
-    </ScrollView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/saveButton"
@@ -90,7 +86,7 @@
         android:padding="12dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollview"/>
+        app:layout_constraintTop_toBottomOf="@+id/parentview"/>
 
     <LinearLayout
         android:id="@+id/excursionTitle"
@@ -120,7 +116,7 @@
         android:id="@+id/noExcursionsTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="There are no assignments associated with this class. Click the '+ Add Assingment' button in the bottom right corner to add one!"
+        android:text="There are no assignments associated with this class. Click the '+' button in the bottom right corner to add one!"
         android:gravity="center"
         android:textColor="@android:color/darker_gray"
         android:padding="15dp"
@@ -132,11 +128,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/excursionRV"
-        android:layout_width="411dp"
-        android:layout_height="438dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginTop="6dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/excursionTitle" />
+        app:layout_constraintTop_toBottomOf="@id/excursionTitle"
+        app:layout_constraintBottom_toTopOf="@id/floatingActionButton2"/>
 
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -146,7 +142,6 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="24dp"
         android:clickable="true"
-        android:text="Add Assignment"
         android:textSize="16sp"
         app:icon="@drawable/add"
         app:iconTint="@color/amber_dark"
