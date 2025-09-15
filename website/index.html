@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment Tracker App</title>
+  <style>
+    :root {
+      --primary: #FFD740;
+      --primary-variant: #FF8F00;
+      --on-primary: #000000;
+      --on-secondary: #000000;
+      --background: #FFFFFF;
+      --surface: #FFFFFF;
+      --on-surface: #000000;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background: var(--primary);
+      color: var(--on-primary);
+      padding: 2rem 1rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    header p {
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      padding: 1.5rem;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .download-button {
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0 6rem 0;
+    }
+
+    .download-button a {
+      background: var(--primary);
+      color: var(--on-primary);
+      text-decoration: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    .download-button a:hover {
+      background: var(--primary-variant);
+      transform: translateY(-3px);
+    }
+
+    section h2 {
+      color: var(--on-surface);
+      margin-top: 2rem;
+      font-size: 1.8rem;
+      text-align: center;
+    }
+
+    section p {
+      line-height: 1.6;
+      text-align: center;
+      max-width: 700px;
+      margin: 0.8rem auto;
+    }
+
+    .screenshots {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .screenshots img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .screenshots img:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: var(--surface);
+      margin-top: 2rem;
+      border-top: 1px solid #eee;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+      header p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Assignment Tracker</h1>
+    <p>All your classes and assignments in one place.</p>
+  </header>
+
+  <div class="container">
+    <section>
+      <h2>About the App</h2>
+      <p>
+        Assignment Tracker helps students manage their academic workload with ease. You can add or edit classes with details like title, subject, start date, and end date. For each class, you can add or edit assignments with details such as title and due date.
+      </p>
+      <p>
+        Features include a search bar to quickly find classes, sharing options for classes and assignments, and CSV report generation for all your assignments.
+      </p>
+      <p>
+        Developed in Android Studio using Java and Room SQL as part of a Software Engineering Capstone Project.
+      </p>
+    </section>
+
+    <div class="download-button">
+      <a href="../app/release/app-release.apk" download="assignment_tracker.apk">Download APK</a>
+    </div>
+
+    <section>
+      <h2>Screenshots</h2>
+      <div class="screenshots">
+        <img src="./img/screenshot1.png" alt="App title screenshot">
+        <img src="./img/screenshot2.png" alt="App class list screenshot">
+        <img src="./img/screenshot3.png" alt="App class details screenshot">
+        <img src="./img/screenshot4.png" alt="App assignment details screenshot">
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>Created as a Software Engineering Capstone Project</p>
+    <p><a href="#">View my portfolio</a></p>
+  </footer>
+</body>
+</html>
